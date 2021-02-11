@@ -16,11 +16,17 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	
+	public User(){
+		super();
+	}
+	
 	public User(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
 	}
+	
+	
 
 	public static List<User> users= new ArrayList<>(Arrays.asList(
 		new User("xavi","bragasdeesparto"),

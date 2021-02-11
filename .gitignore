@@ -2,3 +2,4 @@
 /TOMCAT
 /LUASOAP/build/
 .metadata
+/LUASOAPCLIENT/bin
