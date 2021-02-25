@@ -14,11 +14,13 @@ import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor;
 import org.springframework.ws.soap.security.xwss.callback.SimplePasswordValidationCallbackHandler;
+import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.XsdSchema;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor;
 
 
 
@@ -81,11 +83,25 @@ public class WebServiceConfig  extends WsConfigurerAdapter{
 	
 	@Override
 	public void addInterceptors(List<EndpointInterceptor> interceptors) {
+		interceptors.add(payloadLoggingInterceptor());
+		interceptors.add(payloadValidatingInterceptor());
 		interceptors.add(securityInterceptor());
 		
 	}
 	
 	
+	@Bean
+	public PayloadLoggingInterceptor payloadLoggingInterceptor() {
+		return new PayloadLoggingInterceptor();
+	}
+	
+	@Bean
+	public PayloadValidatingInterceptor payloadValidatingInterceptor() {
+		final PayloadValidatingInterceptor payloadValidatingInterceptor = new PayloadValidatingInterceptor();
+		payloadValidatingInterceptor.setSchema(new ClassPathResource("/xsd/countries.xsd"));
+		return payloadValidatingInterceptor;
+		
+	}
 	
 	
 	
